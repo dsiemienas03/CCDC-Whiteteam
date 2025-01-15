@@ -5,7 +5,7 @@ services:
     restart: always
     networks:
       macvlan:
-        ipv4_address: 10.120.0.123
+        ipv4_address: 10.120.0.10
     environment:
       - NTP_SERVERS=time.cloudflare.com
       - LOG_LEVEL=0
