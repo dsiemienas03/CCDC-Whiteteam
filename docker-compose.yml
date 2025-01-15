@@ -49,6 +49,7 @@ services:
     restart: no
     volumes:
       - ./squid/squid.conf:/etc/squid/squid.conf
+      - proxy-log:/var/log/squid/
     networks:
       macvlan:
         ipv4_address: 10.120.0.200
@@ -62,6 +63,7 @@ services:
 volumes:
   dns-config:
   www-config:
+  proxy-log:
 
 networks:
   macvlan:
