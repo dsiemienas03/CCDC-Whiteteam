@@ -46,12 +46,16 @@ services:
   proxy:
     image: ubuntu/squid
     hostname: proxy
-    restart: always
+    restart: no
     volumes:
       - ./squid/squid.conf:/etc/squid/squid.conf
     networks:
       macvlan:
         ipv4_address: 10.120.0.200
+    ulimits:
+      nofile:
+        soft: "65536"
+        hard: "65536"
 
 
 
