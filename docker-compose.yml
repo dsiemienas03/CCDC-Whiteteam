@@ -1,0 +1,70 @@
+services:
+  ntp:
+    image: cturra/ntp:latest
+    hostname: ntp
+    restart: always
+    networks:
+      macvlan:
+        ipv4_address: 10.120.0.123
+    environment:
+      - NTP_SERVERS=time.cloudflare.com
+      - LOG_LEVEL=0
+      - TZ=America/Chicago
+  #      - NOCLIENTLOG=true
+  #      - ENABLE_NTS=true
+
+
+
+  dns:
+    image: technitium/dns-server
+    hostname: dns
+    restart: always
+    volumes:
+      - dns-config:/etc/dns
+    networks:
+      macvlan:
+        ipv4_address: 10.120.0.53
+    environment:
+      # - DNS_SERVER_DOMAIN=
+      - DNS_SERVER_FORWARDERS=1.1.1.1
+
+
+
+  patch:
+    build: .
+    hostname: patch
+    command: python3 -m http.server 80
+    restart: always
+    volumes:
+      - ./serve:/serve
+    networks:
+      macvlan:
+        ipv4_address: 10.120.0.9
+
+
+
+  proxy:
+    image: ubuntu/squid
+    hostname: proxy
+    restart: always
+    volumes:
+      - ./squid/squid.conf:/etc/squid/squid.conf
+    networks:
+      macvlan:
+        ipv4_address: 10.120.0.200
+
+
+
+volumes:
+  dns-config:
+  www-config:
+
+networks:
+  macvlan:
+    driver: macvlan
+    driver_opts:
+      parent: ens160
+    ipam:
+      config:
+        - subnet: 10.120.0.0/24
+          gateway: 10.120.0.1
