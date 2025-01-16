@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:24.04 AS patch
 
 COPY ca-palo.crt /usr/share/ca-certificates
 
@@ -15,7 +15,8 @@ RUN \
     \
     pip install --break-system-packages\
     http.server ;\
-    mkdir /serve
+    mkdir /serve ;\
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /serve
 SHELL [ "/bin/bash" ]

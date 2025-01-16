@@ -31,6 +31,7 @@ services:
 
 
   patch:
+    image: patch
     build: .
     hostname: patch
     command: python3 -m http.server 80
@@ -40,7 +41,6 @@ services:
     networks:
       macvlan:
         ipv4_address: 10.120.0.9
-
 
 
   proxy:
