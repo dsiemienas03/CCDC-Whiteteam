@@ -15,8 +15,8 @@ RUN \
     \
     pip install --break-system-packages\
     http.server ;\
-    mkdir /serve ;\
     rm -rf /var/lib/apt/lists/*
 
+RUN mkdir /serve
 WORKDIR /serve
 SHELL [ "/bin/bash" ]
